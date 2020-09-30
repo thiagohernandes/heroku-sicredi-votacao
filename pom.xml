@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sicredi</groupId>
-	<artifactId>api-sicredi</artifactId>
+	<artifactId>heroku-sicredi-votacao</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>api-sicredi</name>
+	<name>heroku-sicredi-votacao</name>
 	<description>API Votação Sicredi</description>
 
 	<properties>
