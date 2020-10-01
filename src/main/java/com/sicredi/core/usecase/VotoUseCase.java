@@ -31,6 +31,10 @@ public class VotoUseCase {
         return votoDataProvider.verificaVotoAssociado(idPauta, cpf);
     }
 
+    public boolean validaCpf(Long cpf) {
+        return votoDataProvider.validaCpf(cpf);
+    }
+
 
 
 

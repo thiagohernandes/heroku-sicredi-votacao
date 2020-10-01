@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class ApiSwaggerConfiguration extends WebMvcConfigurationSupport {
 
-    private static final String basePackage = "com.com.sicredi.entrypoint";
+    private static final String basePackage = "com.sicredi.core.entrypoint";
 
     @Bean
     public Docket api() {

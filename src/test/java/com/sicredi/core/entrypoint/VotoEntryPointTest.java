@@ -1,6 +1,7 @@
 package com.sicredi.core.entrypoint;
 
 import com.google.gson.Gson;
+import com.sicredi.core.handler.exception.HandlerValidationException;
 import com.sicredi.core.usecase.VotoUseCase;
 import com.sicredi.core.usecase.http.VotoComputadoHttp;
 import com.sicredi.core.usecase.http.VotoHttp;
@@ -104,6 +105,13 @@ public class VotoEntryPointTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+
+    @Test(expected = HandlerValidationException.class)
+    public void validarCpf__Success__Test() throws Exception {
+        Mockito.when(this.votoUseCase.validaCpf(cpf))
+                .thenReturn(false);
+        this.votoEntryPoint.validaCpf(cpf);
     }
 
 }

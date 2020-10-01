@@ -27,6 +27,10 @@ public class VotoEntryPoint {
 
     @PostMapping("/computar-voto")
     public ResponseEntity<VotoHttp> computarVoto(@RequestBody VotoHttp votoHttp) throws HandlerValidationException {
+        boolean valido = votoUseCase.validaCpf(votoHttp.getCpf());
+        if (!valido) {
+            throw new HandlerValidationException("CPF não válido para votar!");
+        }
         if (!SessaoTimer.controleSessao) {
             throw new HandlerValidationException("A sessão já está fechada para a pauta:  ".
                     concat(votoHttp.getPauta().getDescricao()));
@@ -44,5 +48,16 @@ public class VotoEntryPoint {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(votoUseCase.votosComputadosPorPauta(idPauta));
     }
+
+    @GetMapping("/{cpf}/validar")
+    public ResponseEntity<Boolean> validaCpf(@PathVariable("cpf") Long cpf) throws HandlerValidationException {
+        boolean valido = votoUseCase.validaCpf(cpf);
+        if (!valido) {
+            throw new HandlerValidationException("CPF não válido para votar!");
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(valido);
+    }
+
 
 }

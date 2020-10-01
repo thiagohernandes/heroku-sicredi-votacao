@@ -1,11 +1,10 @@
-package com.sicredi.dataprovider;
+package com.sicredi.core.usecase;
 
 import com.sicredi.core.usecase.http.VotoComputadoHttp;
 import com.sicredi.core.usecase.http.VotoHttp;
+import com.sicredi.dataprovider.VotoDataProvider;
 import com.sicredi.dataprovider.entity.Pauta;
 import com.sicredi.dataprovider.entity.Voto;
-import com.sicredi.dataprovider.feign.VotoFeign;
-import com.sicredi.dataprovider.repository.VotoRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,16 +15,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Arrays;
 
 @RunWith(MockitoJUnitRunner.class)
-public class VotoDataProviderTest {
+public class VotoUseCaseTest {
 
     @InjectMocks
+    private VotoUseCase votoUseCase;
+
+    @Mock
     private VotoDataProvider votoDataProvider;
-
-    @Mock
-    private VotoRepository votoRepository;
-
-    @Mock
-    private VotoFeign votoFeign;
 
     private final Long cpf = 123456789L;
     private final Long idPauta = 2L;
@@ -61,29 +57,15 @@ public class VotoDataProviderTest {
 
     @Test
     public void computaVoto__Success__Test(){
-        Mockito.when(votoRepository.saveAndFlush(voto))
+        Mockito.when(votoDataProvider.computarVoto(votoHttp))
                 .thenReturn(voto);
-        votoDataProvider.computarVoto(votoHttp);
+        votoUseCase.computarVoto(votoHttp);
     }
 
     @Test
     public void votosComputadoPorPauta__Success__Test(){
-        Mockito.when(votoRepository.votosComputadosPorPauta(idPauta))
+        Mockito.when(votoDataProvider.votosComputadosPorPauta(idPauta))
                 .thenReturn(Arrays.asList(votoComputadoHttp));
-        votoDataProvider.votosComputadosPorPauta(idPauta);
-    }
-
-    @Test
-    public void verificaVotoAssociado__Success__Test(){
-        Mockito.when(votoRepository.verificaVotoAssociado(idPauta, cpf))
-                .thenReturn(1L);
-        votoDataProvider.verificaVotoAssociado(idPauta,cpf);
-    }
-
-    @Test
-    public void validarCpf__Success__Test(){
-        Mockito.when(votoFeign.validaCpf(cpf))
-                .thenReturn(false);
-        votoFeign.validaCpf(cpf);
+        votoUseCase.votosComputadosPorPauta(idPauta);
     }
 }

@@ -12,5 +12,6 @@ public interface VotoGateway {
     Voto computarVoto(VotoHttp votoHttp);
     List<VotoComputadoHttp> votosComputadosPorPauta(Long idPauta);
     Long verificaVotoAssociado(Long idPauta, Long cpf);
+    boolean validaCpf(Long cpf);
 
 }
