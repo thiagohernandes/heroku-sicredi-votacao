@@ -7,6 +7,7 @@ import com.sicredi.core.usecase.http.VotoComputadoHttp;
 import com.sicredi.core.usecase.http.VotoHttp;
 import com.sicredi.dataprovider.mapper.PautaMapper;
 import com.sicredi.dataprovider.mapper.VotoMapper;
+import com.sicredi.dataprovider.timer.SessaoTimer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,10 @@ public class VotoEntryPoint {
 
     @PostMapping("/computar-voto")
     public ResponseEntity<VotoHttp> computarVoto(@RequestBody VotoHttp votoHttp) {
+        if (!SessaoTimer.controleSessao) {
+            throw new IllegalArgumentException("A sessão já está fechada para a pauta:  ".
+                    concat(votoHttp.getPauta().getDescricao()));
+        }
         if (votoUseCase.verificaVotoAssociado(votoHttp.getPauta().getId(), votoHttp.getCpf()) > 0) {
             throw new EntityExistsException("Voto já computado para o CPF " + votoHttp.getCpf());
         }

@@ -23,10 +23,6 @@ public class VotoDataProvider implements VotoGateway {
     }
 
     public Voto computarVoto(VotoHttp votoHttp) {
-        if (!SessaoTimer.controleSessao) {
-            throw new IllegalArgumentException("A sessão já está fechada para a pauta:  ".
-                    concat(votoHttp.getPauta().getDescricao()));
-        }
         return votoRepository.saveAndFlush(VotoMapper.httpToEntity(votoHttp));
     }
 
