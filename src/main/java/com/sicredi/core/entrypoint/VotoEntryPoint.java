@@ -15,7 +15,7 @@ import javax.persistence.EntityExistsException;
 import java.util.List;
 
 @RestController
-@RequestMapping("${app.api-url-pautas}")
+@RequestMapping("/api/v1/pautas")
 public class VotoEntryPoint {
 
     private final VotoUseCase votoUseCase;
@@ -32,14 +32,15 @@ public class VotoEntryPoint {
                     concat(votoHttp.getPauta().getDescricao()));
         }
         if (votoUseCase.verificaVotoAssociado(votoHttp.getPauta().getId(), votoHttp.getCpf()) > 0) {
-            throw new EntityExistsException("Voto já computado para o CPF " + votoHttp.getCpf());
+            throw new HandlerValidationException("Voto já computado para o CPF "
+                    .concat(votoHttp.getCpf().toString()));
         }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(VotoMapper.entityToHttp(votoUseCase.computarVoto(votoHttp)));
     }
 
     @GetMapping("/{id-pauta}/resultado-votacao")
-    public ResponseEntity<List<VotoComputadoHttp>> cadastrarPauta(@PathVariable("id-pauta") Long idPauta) {
+    public ResponseEntity<List<VotoComputadoHttp>> resultadoVotacaoPauta(@PathVariable("id-pauta") Long idPauta) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(votoUseCase.votosComputadosPorPauta(idPauta));
     }

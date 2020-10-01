@@ -9,8 +9,9 @@ public class SessaoTimer extends TimerTask {
 
     public Integer segundosAtual = 0;
     public Integer totalSegundos = 0;
-    private final String msgSessaoAberta = "Sessão em execução... {}";
+    private final String msgSessaoAberta = "Sessão em execução... ";
     private final String msgSessaoFechada = "Sessão fechada!";
+    private final String msgIdPautaExecucao = "Id da pauta em votação: ";
     public static boolean controleSessao = false;
     public Long idPautaEmVotacao = 0L;
 
@@ -21,7 +22,7 @@ public class SessaoTimer extends TimerTask {
 
     public void run() {
         controleSessao = true;
-        log.info("Id da pauta em votação: {}", idPautaEmVotacao);
+        log.info(msgIdPautaExecucao, idPautaEmVotacao);
         segundosAtual += 1;
         if (totalSegundos > segundosAtual) {
             log.info(msgSessaoAberta, segundosAtual);

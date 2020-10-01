@@ -1,5 +1,6 @@
 package com.sicredi.dataprovider;
 
+import com.sicredi.core.handler.exception.HandlerValidationException;
 import com.sicredi.core.usecase.http.PautaHttp;
 import com.sicredi.dataprovider.entity.Pauta;
 import com.sicredi.dataprovider.gateway.PautaGateway;
@@ -10,7 +11,6 @@ import com.sicredi.dataprovider.util.PautaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.Timer;
 
@@ -29,24 +29,23 @@ public class PautaDataProvider implements PautaGateway  {
         return pautaRepository.saveAndFlush(PautaMapper.httpToEntity(pauta));
     }
 
-    public Pauta buscarPorId(Long id) {
+    public Pauta buscarPorId(Long id) throws HandlerValidationException {
         Optional<Pauta> pauta = pautaRepository.findById(id);
         if(pauta.isPresent()) {
             return pauta.get();
         } else {
-            throw new EntityNotFoundException(msgErro);
+            throw new HandlerValidationException(msgErro);
         }
     }
 
-    public String abrirSessao(Long idPauta, Integer periodoMinutos) {
+    public String abrirSessao(Long idPauta, Integer periodoMinutos) throws HandlerValidationException {
         if (pautaRepository.verificaExistenciaPauta(idPauta) == 0) {
-            throw new EntityNotFoundException(msgErro);
+            throw new HandlerValidationException(msgErro);
         }
         int minutos = periodoMinutos == null ? 1 : periodoMinutos;
         Timer timer = new Timer();
         timer.schedule(new SessaoTimer(idPauta, PautaUtil.minutosToSegundos(minutos)),0, 1000);
-        return String.valueOf(minutos).concat(" minuto(s)")
-                .concat(" para votação da pauta: ").
+        return String.valueOf(minutos).concat(" minuto(s)").concat(" para votação da pauta: ").
                         concat(String.valueOf(idPauta));
 
     }

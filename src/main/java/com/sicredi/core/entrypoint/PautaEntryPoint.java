@@ -1,5 +1,6 @@
 package com.sicredi.core.entrypoint;
 
+import com.sicredi.core.handler.exception.HandlerValidationException;
 import com.sicredi.core.usecase.PautaUseCase;
 import com.sicredi.core.usecase.http.PautaHttp;
 import com.sicredi.dataprovider.mapper.PautaMapper;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("${app.api-url-pautas}")
+@RequestMapping("/api/v1/pautas")
 public class PautaEntryPoint {
 
     private final PautaUseCase pautaUseCase;
@@ -26,14 +27,16 @@ public class PautaEntryPoint {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PautaHttp> buscarPorId(@PathVariable("id") Long id) {
+    public ResponseEntity<PautaHttp> buscarPorId(@PathVariable("id") Long id)
+                                                    throws HandlerValidationException {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(PautaMapper.entityToHttp(pautaUseCase.buscarPorId(id)));
     }
 
     @PostMapping("/abrir-sessao")
     public ResponseEntity<String> abrirSessao(@RequestParam(required = true) Long idPauta,
-                                              @RequestParam(required = false) Integer periodoMinutos) {
+                                              @RequestParam(required = false) Integer periodoMinutos)
+                                                throws HandlerValidationException {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(pautaUseCase.abrirSessao(idPauta, periodoMinutos));
     }

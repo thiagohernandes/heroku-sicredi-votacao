@@ -1,5 +1,6 @@
 package com.sicredi.core.usecase;
 
+import com.sicredi.core.handler.exception.HandlerValidationException;
 import com.sicredi.core.usecase.http.PautaHttp;
 import com.sicredi.dataprovider.PautaDataProvider;
 import com.sicredi.dataprovider.entity.Pauta;
@@ -20,11 +21,11 @@ public class PautaUseCase {
         return pautaDataProvider.cadastrarPauta(pauta);
     }
 
-    public Pauta buscarPorId(Long id) {
+    public Pauta buscarPorId(Long id) throws HandlerValidationException {
         return pautaDataProvider.buscarPorId(id);
     }
 
-    public String abrirSessao(Long idPauta, Integer periodoMinutos) {
+    public String abrirSessao(Long idPauta, Integer periodoMinutos) throws HandlerValidationException {
         return this.pautaDataProvider.abrirSessao(idPauta, periodoMinutos);
     }
 

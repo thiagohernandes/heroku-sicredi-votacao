@@ -6,7 +6,6 @@ import com.sicredi.dataprovider.entity.Voto;
 import com.sicredi.dataprovider.gateway.VotoGateway;
 import com.sicredi.dataprovider.mapper.VotoMapper;
 import com.sicredi.dataprovider.repository.VotoRepository;
-import com.sicredi.dataprovider.timer.SessaoTimer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
