@@ -1,11 +1,9 @@
 package com.sicredi.core.entrypoint;
 
-import com.sicredi.core.usecase.PautaUseCase;
+import com.sicredi.core.handler.exception.HandlerValidationException;
 import com.sicredi.core.usecase.VotoUseCase;
-import com.sicredi.core.usecase.http.PautaHttp;
 import com.sicredi.core.usecase.http.VotoComputadoHttp;
 import com.sicredi.core.usecase.http.VotoHttp;
-import com.sicredi.dataprovider.mapper.PautaMapper;
 import com.sicredi.dataprovider.mapper.VotoMapper;
 import com.sicredi.dataprovider.timer.SessaoTimer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,9 @@ public class VotoEntryPoint {
     }
 
     @PostMapping("/computar-voto")
-    public ResponseEntity<VotoHttp> computarVoto(@RequestBody VotoHttp votoHttp) {
+    public ResponseEntity<VotoHttp> computarVoto(@RequestBody VotoHttp votoHttp) throws HandlerValidationException {
         if (!SessaoTimer.controleSessao) {
-            throw new IllegalArgumentException("A sessão já está fechada para a pauta:  ".
+            throw new HandlerValidationException("A sessão já está fechada para a pauta:  ".
                     concat(votoHttp.getPauta().getDescricao()));
         }
         if (votoUseCase.verificaVotoAssociado(votoHttp.getPauta().getId(), votoHttp.getCpf()) > 0) {
