@@ -10,8 +10,10 @@ API desenvolvida para as funções de:
 - abrir sessão para votação de pauta;
 - computar votos de associados e
 - contabilizar a votação.
+
 --> OBS 1: A persistência de dados é feita em banco de dados em memória (H2)
---> OBS 2: 
+
+--> OBS 2: O back da API tem a inteligência de controlar a votação de acordo com o tempo da sessão (default 1 minuto) e impedir votações repetidas;
 
 ## Instruções
 ### POSTMAN
@@ -66,6 +68,6 @@ acessar o Swagger com os endpoints e contratos de objetos disponíveis: http://l
 }
 ```
 ### Regras - Controle
--> o sistema faz o contole por tempo de abertura de uma sessão;
--> é permitido passar o parâmetro adicional de minutos ao abrir uma sessão;
--> antes de iniciar todo o processo, conforme endpoints, deve-se cadastrar uma pauta, e em seguida seguir o fluxo de abertura de sessão, votação e resultado final computado por id de uma pauta;
+- o sistema faz o contole por tempo de abertura de uma sessão;
+- é permitido passar o parâmetro adicional de minutos ao abrir uma sessão;
+- antes de iniciar todo o processo, conforme endpoints, deve-se cadastrar uma pauta, e em seguida seguir o fluxo de abertura de sessão, votação e resultado final computado por id de uma pauta;
