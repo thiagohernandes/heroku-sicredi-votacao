@@ -30,4 +30,12 @@ public class PautaEntryPoint {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(PautaMapper.entityToHttp(pautaUseCase.buscarPorId(id)));
     }
+
+    @PostMapping("/abrir-sessao")
+    public ResponseEntity<String> abrirSessao(@RequestParam(required = true) Long idPauta,
+                                              @RequestParam(required = false) Integer periodoMinutos) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(pautaUseCase.abrirSessao(idPauta, periodoMinutos));
+    }
+
 }

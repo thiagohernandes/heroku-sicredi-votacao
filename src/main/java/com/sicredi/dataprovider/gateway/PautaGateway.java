@@ -7,5 +7,6 @@ public interface PautaGateway {
 
     Pauta cadastrarPauta(PautaHttp pauta);
     Pauta buscarPorId(Long id);
+    String abrirSessao(Long idPauta, Integer periodoMinutos);
 
 }

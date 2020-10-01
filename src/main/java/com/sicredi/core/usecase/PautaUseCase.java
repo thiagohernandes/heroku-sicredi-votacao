@@ -24,4 +24,8 @@ public class PautaUseCase {
         return pautaDataProvider.buscarPorId(id);
     }
 
+    public String abrirSessao(Long idPauta, Integer periodoMinutos) {
+        return this.pautaDataProvider.abrirSessao(idPauta, periodoMinutos);
+    }
+
 }
