@@ -39,6 +39,9 @@ public class PautaDataProvider implements PautaGateway  {
     }
 
     public String abrirSessao(Long idPauta, Integer periodoMinutos) {
+        if (pautaRepository.verificaExistenciaPauta(idPauta) == 0) {
+            throw new EntityNotFoundException(msgErro);
+        }
         int minutos = periodoMinutos == null ? 1 : periodoMinutos;
         Timer timer = new Timer();
         timer.schedule(new SessaoTimer(idPauta, PautaUtil.minutosToSegundos(minutos)),0, 1000);
